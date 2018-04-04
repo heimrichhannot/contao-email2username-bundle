@@ -1,0 +1,7 @@
+services:
+  huh.email2username.listener.hooks:
+    class: HeimrichHannot\Email2UsernameBundle\EventListener\HookListener
+    arguments: ['@contao.framework']
+  huh.email2username.listener.callback:
+    class: HeimrichHannot\Email2UsernameBundle\EventListener\CallbackListener
+    arguments: ['@contao.framework']
