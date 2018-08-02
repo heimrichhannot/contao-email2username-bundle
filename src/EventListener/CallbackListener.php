@@ -43,7 +43,7 @@ class CallbackListener
         $member->refresh();
 
         $member->username           = $member->email;
-        $objDc->activeRecord->username = $member->email;
+        $objDc->username = $member->email;
 
         $member->save();
     }
