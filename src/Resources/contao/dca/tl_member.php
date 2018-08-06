@@ -1,14 +1,13 @@
 <?php
 
-$arrDca = &$GLOBALS['TL_DCA']['tl_member'];
+$dca = &$GLOBALS['TL_DCA']['tl_member'];
 
 /**
  * Callbacks
  */
-$arrDca['config']['onsubmit_callback']['setUsernameFromEmail'] = ['huh.email2username.listener.callback', 'setMembernameFromEmail'];
+$dca['config']['onsubmit_callback']['setMembernameFromEmail'] = ['huh.email2username.listener.callback', 'setMembernameFromEmail'];
 
 /**
  * Fields
  */
-$arrDca['fields']['username']['eval']['disabled']  = true;
-$arrDca['fields']['username']['eval']['mandatory'] = false;
+System::getContainer()->get('huh.email2username.listener.callback')->modifyDca('tl_member', $dca);

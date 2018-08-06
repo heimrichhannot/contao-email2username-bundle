@@ -12,9 +12,11 @@
 namespace HeimrichHannot\Email2UsernameBundle\EventListener;
 
 
+use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
 use Contao\MemberModel;
+use Contao\Model;
 use Contao\UserModel;
 
 class CallbackListener
@@ -29,42 +31,105 @@ class CallbackListener
         $this->framework = $framework;
     }
 
+    public function modifyDca(string $table, array &$dca)
+    {
+        switch ($table)
+        {
+            case 'tl_member':
+                if (Config::get('e2uMembers'))
+                {
+                    $dca['fields']['username']['eval']['disabled']  = true;
+                    $dca['fields']['username']['eval']['mandatory'] = false;
+                }
+                break;
+            case 'tl_user':
+                if (Config::get('e2uUsers'))
+                {
+                    $dca['fields']['username']['eval']['disabled']  = true;
+                    $dca['fields']['username']['eval']['mandatory'] = false;
+                }
+                break;
+        }
+    }
+
     /**
      * OnSubmit callback
      *
-     * @param DataContainer $objDc
+     * @param DataContainer $dc
      */
-    public function setMembernameFromEmail($objDc)
+    public function setMembernameFromEmail($dc)
     {
-        /** @var MemberModel $member */
-        if (($member = $this->framework->getAdapter(MemberModel::class)->findByPk($objDc->id)) === null || !$member->email)
+        if (!Config::get('e2uMembers'))
+        {
             return;
+        }
 
-        $member->refresh();
+        /** @var MemberModel $member */
+        if (null === $member && ($member = $this->framework->getAdapter(MemberModel::class)->findByPk($dc->id)) === null) {
+            return;
+        }
 
-        $member->username           = $member->email;
-        $objDc->username = $member->email;
+        if (null !== $dc->activeRecord)
+        {
+            $email = $dc->activeRecord->email;
+        }
+        else
+        {
+            if ($member instanceof Model)
+            {
+                $member->refresh();
+            }
 
+            $email = $member->email;
+        }
+
+        if (!$email)
+        {
+            return;
+        }
+
+        $member->username = strtolower($email);
         $member->save();
     }
 
     /**
      * Onsubmit callback
      *
-     * @param DataContainer $objDc
+     * @param DataContainer $dc
      */
-    public function setUsernameFromEmail(DataContainer $objDc)
+    public function setUsernameFromEmail(DataContainer $dc)
     {
-        /** @var UserModel $member */
-        if (($member = $this->framework->getAdapter(UserModel::class)->findByPk($objDc->id)) === null || !$member->email)
+        if (!Config::get('e2uUsers'))
+        {
             return;
+        }
 
-        $member->refresh();
+        /** @var UserModel $user */
+        if (null === $user && ($user = $this->framework->getAdapter(UserModel::class)->findByPk($dc->id)) === null) {
+            return;
+        }
 
-        $member->username           = $member->email;
-        $objDc->activeRecord->username = $member->email;
+        if (null !== $dc->activeRecord)
+        {
+            $email = $dc->activeRecord->email;
+        }
+        else
+        {
+            if ($user instanceof Model)
+            {
+                $user->refresh();
+            }
 
-        $member->save();
+            $email = $user->email;
+        }
+
+        if (!$email)
+        {
+            return;
+        }
+
+        $user->username = strtolower($email);
+        $user->save();
     }
 
 }

@@ -5,3 +5,4 @@ services:
   huh.email2username.listener.callback:
     class: HeimrichHannot\Email2UsernameBundle\EventListener\CallbackListener
     arguments: ['@contao.framework']
+    public: true
