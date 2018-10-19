@@ -18,7 +18,6 @@
     },
     "require": {
         "php": "~7.0",
-        "heimrichhannot/contao-utils-bundle": "^2.0",
         "contao/core-bundle": "~4.1"
     },
     "autoload": {
