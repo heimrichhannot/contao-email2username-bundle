@@ -18,7 +18,7 @@
     },
     "require": {
         "php": "~7.1",
-        "contao/core-bundle": "~4.1"
+        "contao/core-bundle": "~4.4"
     },
     "replace": {
         "heimrichhannot/contao-email2username": "*"
