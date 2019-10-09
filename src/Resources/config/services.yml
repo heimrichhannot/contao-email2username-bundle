@@ -1,8 +1,13 @@
 services:
-  huh.email2username.listener.hooks:
-    class: HeimrichHannot\Email2UsernameBundle\EventListener\HookListener
-    arguments: ['@contao.framework']
-  huh.email2username.listener.callback:
-    class: HeimrichHannot\Email2UsernameBundle\EventListener\CallbackListener
-    arguments: ['@contao.framework']
+  _defaults:
     public: true
+    autowire: true
+    bind:
+      $bundleConfig: '%huh_email2username%'
+
+  # Event Listener
+  HeimrichHannot\Email2UsernameBundle\EventListener\HookListener: ~
+
+  # DataContainer
+  HeimrichHannot\Email2UsernameBundle\DataContainer\MemberContainer: ~
+  HeimrichHannot\Email2UsernameBundle\DataContainer\UserContainer: ~

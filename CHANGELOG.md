@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2019-10-09
+
+### Changed
+- change config from tl_settings to yaml
+- some refactoring to current symfony and internal standards
+- bundle now replaces the contao 3 model via composer.json
+
 ## [0.3.1] - 2018-10-19
 
 ### Removed

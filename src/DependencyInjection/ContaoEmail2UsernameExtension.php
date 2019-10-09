@@ -2,7 +2,7 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2018 Heimrich & Hannot GmbH
+ * Copyright (c) 2019 Heimrich & Hannot GmbH
  *
  * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
  * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
@@ -12,23 +12,26 @@
 namespace HeimrichHannot\Email2UsernameBundle\DependencyInjection;
 
 
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class HeimrichHannotContaoEmail2UsernameExtension extends Extension
+class ContaoEmail2UsernameExtension extends Extension
 {
+    public function getAlias()
+    {
+        return 'huh_email2username';
+    }
+
 
     /**
      * Loads a specific configuration.
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
-     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $configuration = new Configuration();
+        $processedConfig = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('huh_email2username', $processedConfig);
     }
 }

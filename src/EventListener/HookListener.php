@@ -40,7 +40,7 @@ class HookListener
      *
      * @return bool
      */
-    public function importUserHook($strUser, $strPassword, $strTable)
+    public function onImportUser($strUser, $strPassword, $strTable)
     {
         if (!$this->framework->getAdapter(Validator::class)->isEmail($strUser))
         {

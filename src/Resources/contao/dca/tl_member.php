@@ -5,9 +5,7 @@ $dca = &$GLOBALS['TL_DCA']['tl_member'];
 /**
  * Callbacks
  */
-$dca['config']['onsubmit_callback']['setMembernameFromEmail'] = ['huh.email2username.listener.callback', 'setMembernameFromEmail'];
-
-/**
- * Fields
- */
-System::getContainer()->get('huh.email2username.listener.callback')->modifyDca('tl_member', $dca);
+$dca['config']['onload_callback']['huh_email2username'] = [
+    \HeimrichHannot\Email2UsernameBundle\DataContainer\MemberContainer::class, 'onLoad'];
+$dca['config']['onsubmit_callback']['huh_email2username'] = [
+    \HeimrichHannot\Email2UsernameBundle\DataContainer\MemberContainer::class, 'onSubmit'];

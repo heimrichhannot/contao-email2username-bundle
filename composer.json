@@ -1,6 +1,6 @@
 {
     "name": "heimrichhannot/contao-email2username-bundle",
-    "description":"Adds a simple callback to set the username from email.",
+    "description":"A Contao bundle that automatically sets the username based on the user email address.",
     "keywords":["contao"],
     "type": "contao-bundle",
     "homepage":"https://github.com/heimrichhannot/contao-email2username-bundle",
@@ -17,22 +17,16 @@
         "issues":"https://github.com/heimrichhannot/contao-email2username-bundle/issues"
     },
     "require": {
-        "php": "~7.0",
+        "php": "~7.1",
         "contao/core-bundle": "~4.1"
+    },
+    "replace": {
+        "heimrichhannot/contao-email2username": "*"
     },
     "autoload": {
         "psr-4": {
             "HeimrichHannot\\Email2UsernameBundle\\": "src/"
-        },
-        "classmap": [
-            "src/Resources/contao/"
-        ],
-        "exclude-from-classmap": [
-            "src/Resources/contao/config/",
-            "src/Resources/contao/dca/",
-            "src/Resources/contao/languages/",
-            "src/Resources/contao/templates/"
-        ]
+        }
     },
     "extra": {
         "contao-manager-plugin": "HeimrichHannot\\Email2UsernameBundle\\ContaoManager\\Plugin"
