@@ -1,5 +1,8 @@
 # Contao Email2Username Bundle
 
+[![](https://img.shields.io/packagist/v/heimrichhannot/contao-email2username-bundle.svg)](https://packagist.org/packages/heimrichhannot/contao-email2username-bundle)
+[![](https://img.shields.io/packagist/dt/heimrichhannot/contao-email2username-bundle.svg)](https://packagist.org/packages/heimrichhannot/contao-email2username-bundle)
+
 A [Contao](https://contao.org) bundle that automatically sets the username based on the user email address.
 
 
