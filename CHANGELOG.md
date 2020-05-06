@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 - added createNewUser hook for the registration module
 - added enabled checks for the hook listener
+- fixed code fixer file
 
 ## [1.0.1] - 2019-10-09
 
