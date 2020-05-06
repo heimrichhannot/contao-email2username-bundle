@@ -11,10 +11,10 @@ EOF;
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Resources')
     ->exclude('Fixtures')
-    ->in([__DIR__.'/src', __DIR__.'/tests'])
+    ->in([__DIR__.'/src'])
     ->exclude('vendor')
-    ->exclude('components')
-    ->in(__DIR__)
+    ->exclude('docs')
+    ->in([__DIR__])
 ;
 
 return PhpCsFixer\Config::create()
@@ -29,7 +29,7 @@ return PhpCsFixer\Config::create()
         'header_comment' => ['header' => $header],
         'ordered_imports' => true,
         'ordered_class_elements' => true,
-        'php_unit_strict' => true,
+        'php_unit_strict' => false,
         'phpdoc_order' => true,
         'no_useless_return' => true,
         'no_useless_else' => true,
@@ -39,8 +39,9 @@ return PhpCsFixer\Config::create()
             'expectedException',
             'expectedExceptionMessage',
         ],
+        'blank_line_before_statement' => ['statements' => ['break', 'case', 'continue', 'declare', 'default', 'die', 'do', 'exit', 'for', 'foreach', 'goto', 'if', 'include', 'include_once', 'require', 'require_once', 'return', 'switch', 'throw', 'try', 'while', 'yield']]
     ])
     ->setFinder($finder)
     ->setRiskyAllowed(true)
     ->setUsingCache(false)
-    ;
+;

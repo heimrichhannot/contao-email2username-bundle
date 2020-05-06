@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2019 Heimrich & Hannot GmbH
- *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\Email2UsernameBundle\DataContainer;
-
 
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
@@ -28,11 +24,8 @@ class MemberContainer
      */
     private $framework;
 
-
     /**
      * MemberContainer constructor.
-     * @param array $bundleConfig
-     * @param ContaoFrameworkInterface $framework
      */
     public function __construct(array $bundleConfig, ContaoFrameworkInterface $framework)
     {
@@ -45,13 +38,13 @@ class MemberContainer
     public function onLoad()
     {
         if ($this->enabled) {
-            $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['disabled']  = true;
+            $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['disabled'] = true;
             $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['mandatory'] = false;
         }
     }
 
     /**
-     * onSubmit callback
+     * onSubmit callback.
      *
      * @param DataContainer $dc
      */
@@ -64,33 +57,28 @@ class MemberContainer
     }
 
     /**
-     * OnSubmit callback
+     * OnSubmit callback.
      *
      * @param DataContainer $dc
      */
     protected function setMembernameFromEmail($dc)
     {
         /** @var MemberModel $member */
-        if (null === $member && ($member = $this->framework->getAdapter(MemberModel::class)->findByPk($dc->id)) === null) {
+        if (null === $member && null === ($member = $this->framework->getAdapter(MemberModel::class)->findByPk($dc->id))) {
             return;
         }
 
-        if (null !== $dc->activeRecord)
-        {
+        if (null !== $dc->activeRecord) {
             $email = $dc->activeRecord->email;
-        }
-        else
-        {
-            if ($member instanceof Model)
-            {
+        } else {
+            if ($member instanceof Model) {
                 $member->refresh();
             }
 
             $email = $member->email;
         }
 
-        if (!$email)
-        {
+        if (!$email) {
             return;
         }
 

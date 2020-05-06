@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2020 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2018 Heimrich & Hannot GmbH
- *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\Email2UsernameBundle\ContaoManager;
-
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
@@ -23,11 +19,8 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
-
     /**
      * Gets a list of autoload configurations for this bundle.
-     *
-     * @param ParserInterface $parser
      *
      * @return ConfigInterface[]
      */
@@ -35,8 +28,8 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     {
         return [
             BundleConfig::create(ContaoEmail2UsernameBundle::class)->setLoadAfter([
-                ContaoCoreBundle::class
-            ])
+                ContaoCoreBundle::class,
+            ]),
         ];
     }
 

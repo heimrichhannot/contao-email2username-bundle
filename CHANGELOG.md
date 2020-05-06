@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2020-05-06
+
+- added createNewUser hook for the registration module
+- added enabled checks for the hook listener
+
 ## [1.0.1] - 2019-10-09
 
 ### Changed
