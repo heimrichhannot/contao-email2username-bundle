@@ -11,7 +11,6 @@ namespace HeimrichHannot\Email2UsernameBundle\EventListener;
 use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\Database;
 use Contao\Input;
-use Contao\System;
 use Contao\Validator;
 
 class HookListener
@@ -80,23 +79,5 @@ class HookListener
         }
 
         return false;
-    }
-
-    public function onCreateNewUser($id, $data, $module)
-    {
-        if (!System::getContainer()->get('huh.utils.container')->isFrontend()) {
-            return;
-        }
-
-        if (!$this->enabled || !$module->reg_allowLogin || null === ($member = System::getContainer()->get('huh.utils.model')->findModelInstanceByPk('tl_member', $id))) {
-            return;
-        }
-
-        if (!$this->framework->getAdapter(Validator::class)->isEmail($member->email)) {
-            return;
-        }
-
-        $member->username = strtolower($member->email);
-        $member->save();
     }
 }

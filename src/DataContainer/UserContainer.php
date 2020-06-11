@@ -8,39 +8,49 @@
 
 namespace HeimrichHannot\Email2UsernameBundle\DataContainer;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
 use Contao\DC_Table;
-use Contao\Model;
-use Contao\UserModel;
+use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
 class UserContainer
 {
     /**
-     * @var ContaoFrameworkInterface
-     */
-    protected $framework;
-    /**
      * @var bool
      */
     private $enabled = true;
+    /**
+     * @var ModelUtil
+     */
+    private $modelUtil;
+    /**
+     * @var bool
+     */
+    private $disableOverrideExistingUsernames;
 
     /**
      * UserContainer constructor.
      */
-    public function __construct(array $bundleConfig, ContaoFrameworkInterface $framework)
+    public function __construct(array $bundleConfig, ModelUtil $modelUtil)
     {
         if (isset($bundleConfig['user']) && true !== $bundleConfig['user']) {
             $this->enabled = false;
         }
-        $this->framework = $framework;
+
+        if (isset($bundleConfig['disable_override_existing_usernames']) && true === $bundleConfig['disable_override_existing_usernames']) {
+            $this->disableOverrideExistingUsernames = true;
+        }
+        $this->modelUtil = $modelUtil;
     }
 
     public function onLoad(DC_Table $dcTable)
     {
         if (true === $this->enabled) {
-            $GLOBALS['TL_DCA']['tl_user']['fields']['username']['eval']['disabled'] = true;
             $GLOBALS['TL_DCA']['tl_user']['fields']['username']['eval']['mandatory'] = false;
+
+            if (!$this->disableOverrideExistingUsernames) {
+                $GLOBALS['TL_DCA']['tl_user']['fields']['username']['eval']['disabled'] = true;
+            }
         }
     }
 
@@ -49,34 +59,11 @@ class UserContainer
         if (!$this->enabled) {
             return;
         }
-        $this->setUsernameFromEmail($dc);
-    }
+        $user = $this->modelUtil->findModelInstanceByPk('tl_user', $dc->id);
 
-    /**
-     * Onsubmit callback.
-     */
-    protected function setUsernameFromEmail(DataContainer $dc)
-    {
-        /** @var UserModel $user */
-        if (null === $user && null === ($user = $this->framework->getAdapter(UserModel::class)->findByPk($dc->id))) {
+        if (!$user) {
             return;
         }
-
-        if (null !== $dc->activeRecord) {
-            $email = $dc->activeRecord->email;
-        } else {
-            if ($user instanceof Model) {
-                $user->refresh();
-            }
-
-            $email = $user->email;
-        }
-
-        if (!$email) {
-            return;
-        }
-
-        $user->username = strtolower($email);
-        $user->save();
+        UsernameHelper::setUsernameFromEmail($user, $this->disableOverrideExistingUsernames);
     }
 }

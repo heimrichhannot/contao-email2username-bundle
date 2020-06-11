@@ -8,10 +8,10 @@
 
 namespace HeimrichHannot\Email2UsernameBundle\DataContainer;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
 use Contao\DataContainer;
-use Contao\MemberModel;
-use Contao\Model;
+use Contao\DC_Table;
+use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
+use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
 class MemberContainer
 {
@@ -20,26 +20,40 @@ class MemberContainer
      */
     private $enabled = true;
     /**
-     * @var ContaoFrameworkInterface
+     * @var bool
      */
-    private $framework;
+    private $disableOverrideExistingUsernames = false;
+    /**
+     * @var ModelUtil
+     */
+    private $modelUtil;
 
     /**
      * MemberContainer constructor.
      */
-    public function __construct(array $bundleConfig, ContaoFrameworkInterface $framework)
+    public function __construct(array $bundleConfig, ModelUtil $modelUtil)
     {
         if (isset($bundleConfig['member']) && true !== $bundleConfig['member']) {
             $this->enabled = false;
         }
-        $this->framework = $framework;
+
+        if (isset($bundleConfig['disable_override_existing_usernames']) && true === $bundleConfig['disable_override_existing_usernames']) {
+            $this->disableOverrideExistingUsernames = true;
+        }
+        $this->modelUtil = $modelUtil;
     }
 
-    public function onLoad()
+    /**
+     * @param DC_Table $dc
+     */
+    public function onLoad($dc = null)
     {
         if ($this->enabled) {
-            $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['disabled'] = true;
             $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['mandatory'] = false;
+
+            if (!$this->disableOverrideExistingUsernames) {
+                $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['disabled'] = true;
+            }
         }
     }
 
@@ -53,36 +67,11 @@ class MemberContainer
         if (!$this->enabled) {
             return;
         }
-        $this->setMembernameFromEmail($dc);
-    }
+        $member = $this->modelUtil->findModelInstanceByPk('tl_member', $dc->id);
 
-    /**
-     * OnSubmit callback.
-     *
-     * @param DataContainer $dc
-     */
-    protected function setMembernameFromEmail($dc)
-    {
-        /** @var MemberModel $member */
-        if (null === $member && null === ($member = $this->framework->getAdapter(MemberModel::class)->findByPk($dc->id))) {
+        if (!$member) {
             return;
         }
-
-        if (null !== $dc->activeRecord) {
-            $email = $dc->activeRecord->email;
-        } else {
-            if ($member instanceof Model) {
-                $member->refresh();
-            }
-
-            $email = $member->email;
-        }
-
-        if (!$email) {
-            return;
-        }
-
-        $member->username = strtolower($email);
-        $member->save();
+        UsernameHelper::setUsernameFromEmail($member, $this->disableOverrideExistingUsernames);
     }
 }

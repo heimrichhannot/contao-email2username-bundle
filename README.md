@@ -13,11 +13,16 @@ A [Contao](https://contao.org) bundle that automatically sets the username based
 - case-insensitive email login within tl_member & tl_user
 - can be deactivated for user and/or member (see Configuration chapter)
 
-## Install
+## Install & Setup
 
-```
-composer require heimrichhannot/contao-email2username-bundle
-```
+1. Install from composer or Contao Manager
+
+        composer require heimrichhannot/contao-email2username-bundle
+ 
+1. Customize config to your needs (e.g. enable only for backend user), see Configuration.
+
+1. If you want only new members/users to get email as username, enable `disable_override_existing_usernames` option.
+
 
 ## Configuration
 
@@ -25,7 +30,14 @@ You can disable this bundles functionality for member or user in your config fil
 
 ```yaml
 huh_email2username:
-    user: true # Enable or disable for tl_user. Default: Enabled (true)
-    memeber: true # Enable or disable for tl_member. Default: Enabled (true)
+
+    # Enable support for backend user.
+    user:                 true
+
+    # Enable support for frontend member.
+    member:               true
+
+    # Disable overriding existing usernames.
+    disable_override_existing_usernames: false
 ```
 

@@ -25,8 +25,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('user')->defaultTrue()->end()
-                ->booleanNode('member')->defaultTrue()->end()
+                ->booleanNode('user')->defaultTrue()->info('Enable support for backend user.')->end()
+                ->booleanNode('member')->defaultTrue()->info('Enable support for frontend member.')->end()
+                ->booleanNode('disable_override_existing_usernames')->defaultFalse()->info('Disable overriding existing usernames.')->end()
             ->end()
         ;
 

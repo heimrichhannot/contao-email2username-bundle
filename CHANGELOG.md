@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2020-06-11
+- added disable_override_existing_usernames option to keep existing user and member names
+- fixed wrong option was evaluated in createNewsUser hook
+- code enhancements
+
 ## [1.1.0] - 2020-05-06
 
 - added createNewUser hook for the registration module
