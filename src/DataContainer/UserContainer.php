@@ -26,7 +26,7 @@ class UserContainer
     /**
      * @var bool
      */
-    private $disableOverrideExistingUsernames;
+    private $disableOverrideExistingUsernames = false;
 
     /**
      * UserContainer constructor.
