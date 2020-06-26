@@ -19,7 +19,7 @@ class UsernameHelper
      */
     public static function setUsernameFromEmail(Model $user, bool $disableOverrideExistingUsernames = false)
     {
-        if (!($user instanceof MemberModel) || !($user instanceof UserModel)) {
+        if (!($user instanceof MemberModel) && !($user instanceof UserModel)) {
             return;
         }
 

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2020-06-26
+- fixed wrong boolean comparison
+
 ## [1.2.1] - 2020-06-19
 - fixed type error
 
