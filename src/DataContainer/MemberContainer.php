@@ -10,6 +10,7 @@ namespace HeimrichHannot\Email2UsernameBundle\DataContainer;
 
 use Contao\DataContainer;
 use Contao\DC_Table;
+use Contao\Input;
 use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
 use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 
@@ -55,6 +56,14 @@ class MemberContainer
                 $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['disabled'] = true;
             }
         }
+
+        if (0 !== \func_num_args()
+            || null !== Input::post('username')
+            || 0 !== strpos((string) Input::post('FORM_SUBMIT'), 'tl_registration')) {
+            return;
+        }
+
+        Input::setPost('username', Input::post('email'));
     }
 
     /**

@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] - 2020-08-05
+- fixed empty password warning when username field no activated in registration form (see https://github.com/contao/contao/issues/1809)
+
 ## [1.2.2] - 2020-06-26
 - fixed wrong boolean comparison
 
