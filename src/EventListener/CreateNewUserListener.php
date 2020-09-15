@@ -34,7 +34,10 @@ class CreateNewUserListener
         $this->modelUtil = $modelUtil;
     }
 
-    public function __invoke(int $userId, array $userData, Module $module)
+    /**
+     * @param Module $module
+     */
+    public function __invoke(int $userId, array $userData, $module)
     {
         if (!$this->enabled || !$module->reg_allowLogin || null === ($member = $this->modelUtil->findModelInstanceByPk('tl_member', $userId))) {
             return;
