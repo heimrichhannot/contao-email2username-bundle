@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.5] - 2020-09-15
+- added missing dependency to utils-bundle (thanks @nano-67, see https://github.com/heimrichhannot/contao-email2username-bundle/issues/2)
+
 ## [1.2.4] - 2020-09-15
 - removed Module parameter type in CreateNewUserListener to avoid exception in combination with some legacy code
 
