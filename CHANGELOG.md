@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.6] - 2020-12-11
+- fixed issue when Model is multilingual using DC_Multilingual
+
 ## [1.2.5] - 2020-09-15
 - added missing dependency to utils-bundle (thanks @nano-67, see https://github.com/heimrichhannot/contao-email2username-bundle/issues/2)
 
