@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2021-08-30
+
+- Added: php8 support
+
 ## [1.2.6] - 2020-12-11
 - fixed issue when Model is multilingual using DC_Multilingual
 
