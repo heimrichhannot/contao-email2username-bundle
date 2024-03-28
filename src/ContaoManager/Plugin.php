@@ -24,7 +24,7 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
      *
      * @return ConfigInterface[]
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(ContaoEmail2UsernameBundle::class)->setLoadAfter([
@@ -36,7 +36,7 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     /**
      * Allows a plugin to load container configuration.
      */
-    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
     {
         $loader->load('@ContaoEmail2UsernameBundle/Resources/config/services.yml');
     }

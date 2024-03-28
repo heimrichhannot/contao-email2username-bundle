@@ -11,27 +11,18 @@ namespace HeimrichHannot\Email2UsernameBundle\DataContainer;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class UserContainer
 {
-    /**
-     * @var bool
-     */
-    private $enabled = true;
-    /**
-     * @var ModelUtil
-     */
-    private $modelUtil;
-    /**
-     * @var bool
-     */
-    private $disableOverrideExistingUsernames = false;
+    private bool $enabled = true;
+    private bool $disableOverrideExistingUsernames = false;
+    private Utils $utils;
 
     /**
      * UserContainer constructor.
      */
-    public function __construct(array $bundleConfig, ModelUtil $modelUtil)
+    public function __construct(array $bundleConfig, Utils $utils)
     {
         if (isset($bundleConfig['user']) && true !== $bundleConfig['user']) {
             $this->enabled = false;
@@ -40,7 +31,7 @@ class UserContainer
         if (isset($bundleConfig['disable_override_existing_usernames']) && true === $bundleConfig['disable_override_existing_usernames']) {
             $this->disableOverrideExistingUsernames = true;
         }
-        $this->modelUtil = $modelUtil;
+        $this->utils = $utils;
     }
 
     public function onLoad(DC_Table $dcTable)
@@ -59,7 +50,7 @@ class UserContainer
         if (!$this->enabled) {
             return;
         }
-        $user = $this->modelUtil->findModelInstanceByPk('tl_user', $dc->id);
+        $user = $this->utils->model()->findModelInstanceByPk('tl_user', $dc->id);
 
         if (!$user) {
             return;

@@ -8,24 +8,17 @@
 
 namespace HeimrichHannot\Email2UsernameBundle\EventListener;
 
-use Contao\CoreBundle\Framework\ContaoFrameworkInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Input;
 use Contao\Validator;
 
 class HookListener
 {
-    /**
-     * @var bool
-     */
-    private $enabled = true;
+    private bool $enabled = true;
+    private ContaoFramework $framework;
 
-    /**
-     * @var ContaoFrameworkInterface
-     */
-    private $framework;
-
-    public function __construct(array $bundleConfig, ContaoFrameworkInterface $framework)
+    public function __construct(array $bundleConfig, ContaoFramework $framework)
     {
         if (isset($bundleConfig['user']) && true !== $bundleConfig['user']) {
             $this->enabled = false;
@@ -53,7 +46,10 @@ class HookListener
 
         switch ($strTable) {
             case 'tl_member':
-                $objMember = $this->framework->createInstance(Database::class)->prepare('SELECT * from tl_member WHERE lower(username) = ?')->limit(1)->execute($strUser);
+                $objMember = $this->framework->createInstance(Database::class)
+                    ->prepare('SELECT * from tl_member WHERE lower(username) = ?')
+                    ->limit(1)
+                    ->execute($strUser);
 
                 if ($objMember->numRows > 0) {
                     // set post user name to the users username
@@ -66,7 +62,10 @@ class HookListener
 
             case
             'tl_user':
-                $objUser = $this->framework->createInstance(Database::class)->prepare('SELECT * from tl_user WHERE lower(username) = ?')->limit(1)->execute($strUser);
+                $objUser = $this->framework->createInstance(Database::class)
+                    ->prepare('SELECT * from tl_user WHERE lower(username) = ?')
+                    ->limit(1)
+                    ->execute($strUser);
 
                 if ($objUser->numRows > 0) {
                     // set post user name to the users username

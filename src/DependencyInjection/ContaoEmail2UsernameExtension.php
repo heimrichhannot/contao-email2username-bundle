@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 
 class ContaoEmail2UsernameExtension extends Extension
 {
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'huh_email2username';
     }
@@ -23,7 +23,7 @@ class ContaoEmail2UsernameExtension extends Extension
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $processedConfig = $this->processConfiguration($configuration, $configs);
