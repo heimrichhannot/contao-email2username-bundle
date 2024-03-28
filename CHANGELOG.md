@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2024-03-28
+- Added: Support for Contao 5
+
 ## [1.4.0] - 2022-02-14
 
 - Fixed: config for symfony 4+
