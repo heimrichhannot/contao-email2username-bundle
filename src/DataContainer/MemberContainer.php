@@ -12,7 +12,6 @@ use Contao\DataContainer;
 use Contao\DC_Table;
 use Contao\Input;
 use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class MemberContainer

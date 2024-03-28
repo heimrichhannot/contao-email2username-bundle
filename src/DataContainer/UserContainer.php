@@ -11,7 +11,6 @@ namespace HeimrichHannot\Email2UsernameBundle\DataContainer;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class UserContainer
