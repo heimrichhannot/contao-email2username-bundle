@@ -8,20 +8,24 @@
 
 namespace HeimrichHannot\Email2UsernameBundle\Helper;
 
+use Contao\Database;
 use Contao\MemberModel;
 use Contao\Model;
 use Contao\System;
 use Contao\UserModel;
-use HeimrichHannot\UtilsBundle\Database\DatabaseUtil;
 
 class UsernameHelper
 {
     /**
      * Set username for user or member model.
      */
-    public static function setUsernameFromEmail(Model $user, bool $disableOverrideExistingUsernames = false)
+    public static function setUsernameFromEmail(Model $user, bool $disableOverrideExistingUsernames = false): void
     {
-        if (!($user instanceof MemberModel) && !($user instanceof UserModel) && !(class_exists('Terminal42\DcMultilingualBundle\Model\Multilingual') && is_subclass_of($user, 'Terminal42\DcMultilingualBundle\Model\Multilingual'))) {
+        if (!($user instanceof MemberModel)
+            && !($user instanceof UserModel)
+            && !(class_exists('Terminal42\DcMultilingualBundle\Model\Multilingual')
+                && is_subclass_of($user, 'Terminal42\DcMultilingualBundle\Model\Multilingual')))
+        {
             return;
         }
 
@@ -35,10 +39,8 @@ class UsernameHelper
 
         $t = $user::getTable();
 
-        System::getContainer()->get(DatabaseUtil::class)->update(
-            $user::getTable(), [
-                'username' => strtolower($user->email),
-            ], "$t.id=?", [$user->id]
-        );
+        System::getContainer()->get('contao.framework')->createInstance(Database::class)
+            ->prepare("UPDATE $t SET username=? WHERE id=?")
+            ->execute(strtolower($user->email), $user->id);
     }
 }

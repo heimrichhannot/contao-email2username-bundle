@@ -10,28 +10,23 @@ namespace HeimrichHannot\Email2UsernameBundle\EventListener;
 
 use Contao\Module;
 use HeimrichHannot\Email2UsernameBundle\Helper\UsernameHelper;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class CreateNewUserListener
 {
-    /**
-     * @var bool
-     */
-    private $enabled = true;
-    /**
-     * @var ModelUtil
-     */
-    private $modelUtil;
+    private bool $enabled = true;
+    private Utils $utils;
+
 
     /**
      * CreateNewUserListener constructor.
      */
-    public function __construct(array $bundleConfig, ModelUtil $modelUtil)
+    public function __construct(array $bundleConfig, Utils $utils)
     {
         if (isset($bundleConfig['member']) && true !== $bundleConfig['member']) {
             $this->enabled = false;
         }
-        $this->modelUtil = $modelUtil;
+        $this->utils = $utils;
     }
 
     /**
@@ -39,7 +34,13 @@ class CreateNewUserListener
      */
     public function __invoke(int $userId, array $userData, $module)
     {
-        if (!$this->enabled || !$module->reg_allowLogin || null === ($member = $this->modelUtil->findModelInstanceByPk('tl_member', $userId))) {
+        if (!$this->enabled || !$module->reg_allowLogin) {
+            return;
+        }
+
+        $member = $this->utils->model()->findModelInstanceByPk('tl_member', $userId);
+
+        if (null === $member) {
             return;
         }
 
