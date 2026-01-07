@@ -15,13 +15,17 @@ use Contao\Validator;
 
 class HookListener
 {
-    private bool $enabled = true;
+    private bool $enabledBE = true;
+    private bool $enabledFE = true;
     private ContaoFramework $framework;
 
     public function __construct(array $bundleConfig, ContaoFramework $framework)
     {
         if (isset($bundleConfig['user']) && true !== $bundleConfig['user']) {
-            $this->enabled = false;
+            $this->enabledBE = false;
+        }
+        if (isset($bundleConfig['member']) && true !== $bundleConfig['member']) {
+            $this->enabledFE = false;
         }
 
         $this->framework = $framework;
@@ -40,16 +44,19 @@ class HookListener
      */
     public function onImportUser($strUser, $strPassword, $strTable)
     {
-        if (!$this->enabled || !$this->framework->getAdapter(Validator::class)->isEmail($strUser)) {
+        if (!$this->framework->getAdapter(Validator::class)->isEmail($strUser)) {
             return false;
         }
 
         switch ($strTable) {
             case 'tl_member':
+                if (!$this->enabledFE) {
+                    return false;
+                }
                 $objMember = $this->framework->createInstance(Database::class)
                     ->prepare('SELECT * from tl_member WHERE lower(username) = ?')
                     ->limit(1)
-                    ->execute($strUser);
+                    ->execute(strtolower($strUser));
 
                 if ($objMember->numRows > 0) {
                     // set post user name to the users username
@@ -60,12 +67,14 @@ class HookListener
 
                 break;
 
-            case
-            'tl_user':
+            case 'tl_user':
+                if (!$this->enabledBE) {
+                    return false;
+                }
                 $objUser = $this->framework->createInstance(Database::class)
                     ->prepare('SELECT * from tl_user WHERE lower(username) = ?')
                     ->limit(1)
-                    ->execute($strUser);
+                    ->execute(strtolower($strUser));
 
                 if ($objUser->numRows > 0) {
                     // set post user name to the users username
