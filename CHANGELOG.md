@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.5.1] - 2026-01-07
+- Fixed: issues with case-sensitivity ([@lukasbableck](https://github.com/lukasbableck), [#5](https://github.com/heimrichhannot/contao-email2username-bundle/pull/5))
+
 ## [1.5.0] - 2024-03-28
 - Added: Support for Contao 5
 
