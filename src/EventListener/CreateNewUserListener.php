@@ -32,7 +32,7 @@ class CreateNewUserListener
     /**
      * @param Module $module
      */
-    public function __invoke(int $userId, array $userData, $module)
+    public function __invoke(int $userId, array $userData, $module): void
     {
         if (!$this->enabled || !$module->reg_allowLogin) {
             return;

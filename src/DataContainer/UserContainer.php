@@ -34,7 +34,7 @@ class UserContainer
         $this->utils = $utils;
     }
 
-    public function onLoad(DC_Table $dcTable)
+    public function onLoad(DC_Table $dcTable): void
     {
         if (true === $this->enabled) {
             $GLOBALS['TL_DCA']['tl_user']['fields']['username']['eval']['mandatory'] = false;
@@ -45,7 +45,7 @@ class UserContainer
         }
     }
 
-    public function onSubmit(DataContainer $dc)
+    public function onSubmit(DataContainer $dc): void
     {
         if (!$this->enabled) {
             return;

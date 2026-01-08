@@ -39,7 +39,7 @@ class MemberContainer
     /**
      * @param DC_Table $dc
      */
-    public function onLoad($dc = null)
+    public function onLoad($dc = null): void
     {
         if ($this->enabled) {
             $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['mandatory'] = false;
@@ -63,7 +63,7 @@ class MemberContainer
      *
      * @param DataContainer $dc
      */
-    public function onSubmit($dc)
+    public function onSubmit($dc): void
     {
         if (!$this->enabled) {
             return;
