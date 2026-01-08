@@ -21,11 +21,7 @@ class UsernameHelper
      */
     public static function setUsernameFromEmail(Model $user, bool $disableOverrideExistingUsernames = false): void
     {
-        if (!($user instanceof MemberModel)
-            && !($user instanceof UserModel)
-            && !(class_exists('Terminal42\DcMultilingualBundle\Model\Multilingual')
-                && is_subclass_of($user, 'Terminal42\DcMultilingualBundle\Model\Multilingual')))
-        {
+        if (!($user instanceof MemberModel) && !($user instanceof UserModel)) {
             return;
         }
 
