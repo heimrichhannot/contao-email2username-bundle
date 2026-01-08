@@ -20,8 +20,9 @@
         "php": "^7.4 || ^8.0",
         "contao/core-bundle": "^4.13 || ^5.0",
         "heimrichhannot/contao-utils-bundle": "^2.181 || ^3.0",
-        "symfony/http-kernel": "^5.4 || ^6.0 || ^7.0",
-        "symfony/dependency-injection": "^5.4 || ^6.0 || ^7.0"
+        "symfony/config": "^5.4 || ^6.0 || ^7.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0 || ^7.0",
+        "symfony/http-kernel": "^5.4 || ^6.0 || ^7.0"
     },
     "replace": {
         "heimrichhannot/contao-email2username": "*"
@@ -33,5 +34,13 @@
     },
     "extra": {
         "contao-manager-plugin": "HeimrichHannot\\Email2UsernameBundle\\ContaoManager\\Plugin"
+    },
+    "require-dev": {
+        "rector/rector": "^2.3",
+        "contao/contao-rector": "dev-main",
+        "symplify/easy-coding-standard": "^13.0",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-symfony": "^2.0",
+        "contao/manager-plugin": "^2.13"
     }
 }
