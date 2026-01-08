@@ -19,9 +19,6 @@ class UserContainer
     private bool $disableOverrideExistingUsernames = false;
     private Utils $utils;
 
-    /**
-     * UserContainer constructor.
-     */
     public function __construct(array $bundleConfig, Utils $utils)
     {
         if (isset($bundleConfig['user']) && true !== $bundleConfig['user']) {

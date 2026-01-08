@@ -17,10 +17,6 @@ class CreateNewUserListener
     private bool $enabled = true;
     private Utils $utils;
 
-
-    /**
-     * CreateNewUserListener constructor.
-     */
     public function __construct(array $bundleConfig, Utils $utils)
     {
         if (isset($bundleConfig['member']) && true !== $bundleConfig['member']) {

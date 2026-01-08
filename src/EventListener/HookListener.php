@@ -36,10 +36,6 @@ class HookListener
      *
      * RFC 5321, section-2.3.11 says that email addresses should be treated as case-insensitive
      *
-     * @param $strUser
-     * @param $strPassword
-     * @param $strTable
-     *
      * @return bool
      */
     public function onImportUser($strUser, $strPassword, $strTable)

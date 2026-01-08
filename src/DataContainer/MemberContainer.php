@@ -20,9 +20,6 @@ class MemberContainer
     private bool $disableOverrideExistingUsernames = false;
     private Utils $utils;
 
-    /**
-     * MemberContainer constructor.
-     */
     public function __construct(array $bundleConfig, Utils $utils)
     {
         if (isset($bundleConfig['member']) && true !== $bundleConfig['member']) {
