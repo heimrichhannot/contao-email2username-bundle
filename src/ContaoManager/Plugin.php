@@ -14,10 +14,10 @@ use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Config\ConfigInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ConfigPluginInterface;
-use HeimrichHannot\Email2UsernameBundle\ContaoEmail2UsernameBundle;
+use HeimrichHannot\Email2UsernameBundle\HeimrichHannotEmail2UsernameBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
-class Plugin implements BundlePluginInterface, ConfigPluginInterface
+class Plugin implements BundlePluginInterface
 {
     /**
      * Gets a list of autoload configurations for this bundle.
@@ -27,17 +27,9 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     public function getBundles(ParserInterface $parser): array
     {
         return [
-            BundleConfig::create(ContaoEmail2UsernameBundle::class)->setLoadAfter([
+            BundleConfig::create(HeimrichHannotEmail2UsernameBundle::class)->setLoadAfter([
                 ContaoCoreBundle::class,
             ]),
         ];
-    }
-
-    /**
-     * Allows a plugin to load container configuration.
-     */
-    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
-    {
-        $loader->load('@ContaoEmail2UsernameBundle/Resources/config/services.yml');
     }
 }
