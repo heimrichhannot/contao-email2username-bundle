@@ -38,6 +38,8 @@ class MemberContainer
      */
     public function onLoad($dc = null): void
     {
+        return;
+
         if ($this->enabled) {
             $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['mandatory'] = false;
 
