@@ -39,7 +39,7 @@ abstract class AbstractUserListener
             return;
         }
 
-        $user->username = $user->email;
+        $user->username = \mb_strtolower($user->email);
         $user->save();
     }
 }

@@ -20,9 +20,11 @@ class BackendUserListener extends AbstractUserListener
         if (!$this->override) {
             return;
         }
+        
         $field = &$GLOBALS['TL_DCA']['tl_user']['fields']['username'];
         $field['eval']['rgxp'] = 'email';
         $field['eval']['readonly'] = true;
+        $field['eval']['mandatory'] = false;
     }
 
     #[AsCallback(table: 'tl_user', target: 'config.onsubmit')]

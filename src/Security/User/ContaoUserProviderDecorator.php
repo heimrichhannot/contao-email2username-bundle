@@ -20,7 +20,7 @@ class ContaoUserProviderDecorator implements UserProviderInterface, PasswordUpgr
         private readonly string $userTable,
     ) {
         if ('tl_user' !== $userTable && 'tl_member' !== $userTable) {
-            throw new \RuntimeException(\sprintf('Unsupported class "%s".', $userTable));
+            throw new \RuntimeException(\sprintf('Unsupported table "%s".', $userTable));
         }
     }
 

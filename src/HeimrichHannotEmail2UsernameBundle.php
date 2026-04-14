@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
@@ -37,6 +38,7 @@ class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
                 ->args([
                     service(RequestStack::class),
                     service(ScopeMatcher::class),
+                    service(TranslatorInterface::class),
                     $config['member'] ?? [],
                 ]);
             $container->services()->set('e2u.decorator.frontend_user_provider', ContaoUserProviderDecorator::class)

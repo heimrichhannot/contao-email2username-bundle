@@ -10,7 +10,6 @@ A [Contao](https://contao.org) extension that allows using the e-mail address as
 
 - login with username or e-mail address
 - set username to e-mail address on registration, member/user creation or member/user update (can be disabled)
-- can be only activated for members,
 - can be deactivated for user and/or member (see Configuration chapter)
 
 ## Install & Setup
