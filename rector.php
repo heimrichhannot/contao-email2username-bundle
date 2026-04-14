@@ -14,15 +14,12 @@ use Rector\ValueObject\PhpVersion;
 return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/src',
-//        __DIR__ . '/contao',
-
     ])
     ->withPhpVersion(PhpVersion::PHP_84)
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
         ExplicitNullableParamTypeRector::class,
     ])
-
     ->withImportNames(
         importShortClasses: false,
         removeUnusedImports: true
@@ -34,12 +31,11 @@ return RectorConfig::configure()
         symfony: true,
     )
     ->withSets([
-        LevelSetList::UP_TO_PHP_74,
-        ContaoLevelSetList::UP_TO_CONTAO_413,
+        LevelSetList::UP_TO_PHP_81,
+        ContaoLevelSetList::UP_TO_CONTAO_53,
         ContaoSetList::FQCN,
         ContaoSetList::ANNOTATIONS_TO_ATTRIBUTES,
     ])
     ->withSkip([
         ArrayToFirstClassCallableRector::class,
-    ])
-;
+    ]);

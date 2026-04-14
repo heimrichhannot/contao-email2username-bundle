@@ -22,7 +22,7 @@ class ContaoUserProviderDecorator implements UserProviderInterface, PasswordUpgr
         }
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): UserInterface
     {
         try {
             return $this->inner->refreshUser($user);
@@ -31,7 +31,7 @@ class ContaoUserProviderDecorator implements UserProviderInterface, PasswordUpgr
         }
     }
 
-    public function supportsClass(string $class)
+    public function supportsClass(string $class): bool
     {
         return $this->inner->supportsClass($class);
     }
