@@ -9,7 +9,6 @@ use Contao\DataContainer;
 use Contao\FrontendUser;
 use Contao\MemberModel;
 use Contao\Module;
-use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class FrontendUserListener extends AbstractUserListener
