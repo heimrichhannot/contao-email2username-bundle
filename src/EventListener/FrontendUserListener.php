@@ -10,8 +10,6 @@ use Contao\FrontendUser;
 use Contao\Input;
 use Contao\MemberModel;
 use Contao\Module;
-use Contao\ModuleModel;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -70,7 +68,7 @@ class FrontendUserListener extends AbstractUserListener
         }
 
         if (!Input::post('username')) {
-            $value = \mb_strtolower($value);
+            $value = \mb_strtolower((string) $value);
             if (MemberModel::findByEmail($value)) {
                 throw new \Exception($this->translator->trans('error.duplicate_email', domain: 'huh_e2u'));
             }
