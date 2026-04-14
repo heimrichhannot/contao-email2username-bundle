@@ -20,8 +20,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 class Plugin implements BundlePluginInterface
 {
     /**
-     * Gets a list of autoload configurations for this bundle.
-     *
      * @return ConfigInterface[]
      */
     public function getBundles(ParserInterface $parser): array

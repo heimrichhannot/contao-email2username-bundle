@@ -4,16 +4,23 @@ namespace HeimrichHannot\Email2UsernameBundle\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\DataContainer;
+use Contao\FrontendUser;
 use Contao\MemberModel;
 use Contao\Module;
 use HeimrichHannot\UtilsBundle\Util\Utils;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class FrontendUserListener
+class FrontendUserListener extends AbstractUserListener
 {
     public function __construct(
-        private readonly Utils $utils
-    ) {}
+        private readonly RequestStack $requestStack,
+        private readonly ScopeMatcher $scopeMatcher,
+        private readonly array $config,
+    ) {
+        $this->setOverride($this->config['override'] ?? true);
+    }
 
     #[AsHook('loadDataContainer')]
     public function onLoadDataContainer(string $table): void
@@ -25,28 +32,37 @@ class FrontendUserListener
         $GLOBALS['TL_DCA']['tl_member']['fields']['username']['eval']['feEditable'] = false;
     }
 
-    #[AsCallback(table: 'tl_content', target: 'config.onload')]
+    #[AsHook('createNewUser')]
+    public function onCreateNewUser(int $userId, array $userData, Module $module): void
+    {
+        $this->updateUserIfNeeded($userId);
+    }
+
+    #[AsCallback(table: 'tl_member', target: 'config.onload')]
     public function onLoad(DataContainer|null $dc = null): void
     {
         $field = &$GLOBALS['TL_DCA']['tl_member']['fields']['username'];
         $field['eval']['mandatory'] = false;
         $field['eval']['rgxp'] = 'email';
 
-        if (!$this->utils->container()->isBackend()) {
-            // disable_override_existing_usernames
-            $field['eval']['disabled'] = true;
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request && $this->scopeMatcher->isBackendRequest($request)) {
+            $field['eval']['readonly'] = true;
         }
     }
 
-    #[AsHook('createNewUser')]
-    public function onCreateNewUser(int $userId, array $userData, Module $module): void
+    #[AsCallback(table: 'tl_member', target: 'config.onsubmit')]
+    public function onSubmit(DataContainer|FrontendUser $dc): void
     {
-        $member = MemberModel::findByPk($userId);
-        if (!$member) {
+        if (!($dc instanceof DataContainer) || !$dc->id) {
             return;
         }
 
-        $member->username = $member->email;
-        $member->save();
+        $this->updateUserIfNeeded((int)$dc->id);
+    }
+
+    protected function modelClass(): string
+    {
+        return MemberModel::class;
     }
 }
