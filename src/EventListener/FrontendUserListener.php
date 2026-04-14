@@ -24,7 +24,7 @@ class FrontendUserListener extends AbstractUserListener
     #[AsHook('loadDataContainer')]
     public function onLoadDataContainer(string $table): void
     {
-        if ('tl_member' !== $table) {
+        if ('tl_member' !== $table || !$this->override) {
             return;
         }
 
@@ -42,6 +42,11 @@ class FrontendUserListener extends AbstractUserListener
     {
         $field = &$GLOBALS['TL_DCA']['tl_member']['fields']['username'];
         $field['eval']['mandatory'] = false;
+
+        if (!$this->override) {
+            return;
+        }
+
         $field['eval']['rgxp'] = 'email';
 
         $request = $this->requestStack->getCurrentRequest();

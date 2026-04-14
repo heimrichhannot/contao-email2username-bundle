@@ -17,6 +17,9 @@ class BackendUserListener extends AbstractUserListener
     #[AsCallback(table: 'tl_user', target: 'config.onload')]
     public function onLoad(?DataContainer $dc = null): void
     {
+        if (!$this->override) {
+            return;
+        }
         $field = &$GLOBALS['TL_DCA']['tl_user']['fields']['username'];
         $field['eval']['rgxp'] = 'email';
         $field['eval']['readonly'] = true;

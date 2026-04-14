@@ -32,23 +32,33 @@ class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         if (true === ($config['member']['enable'] ?? true)) {
-            $container->services()->set(FrontendUserListener::class)->args([
-                RequestStack::class,
-                ScopeMatcher::class,
-                $config['member'] ?? [],
-            ]);
+            $container->services()->set(FrontendUserListener::class)
+                ->autoconfigure()
+                ->args([
+                    service(RequestStack::class),
+                    service(ScopeMatcher::class),
+                    $config['member'] ?? [],
+                ]);
             $container->services()->set('e2u.decorator.frontend_user_provider', ContaoUserProviderDecorator::class)
                 ->decorate('contao.security.frontend_user_provider')
-                ->args([service('.inner'), 'tl_member']);
+                ->args([
+                    service('.inner'),
+                    'tl_member',
+                ]);
         }
 
         if (true === ($config['user']['enable'] ?? true)) {
-            $container->services()->set(BackendUserListener::class)->args([
-                $config['user'] ?? [],
-            ]);
+            $container->services()->set(BackendUserListener::class)
+                ->autoconfigure()
+                ->args([
+                    $config['user'] ?? [],
+                ]);
             $container->services()->set('e2u.decorator.backend_user_provider', ContaoUserProviderDecorator::class)
                 ->decorate('contao.security.backend_user_provider')
-                ->args([service('.inner'), 'tl_user']);
+                ->args([
+                    service('.inner'),
+                    'tl_user',
+                ]);
         }
 
         $container->parameters()->set($this->extensionAlias, $config);
