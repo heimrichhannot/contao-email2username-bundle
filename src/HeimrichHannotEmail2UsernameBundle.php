@@ -8,7 +8,10 @@
 
 namespace HeimrichHannot\Email2UsernameBundle;
 
+use Contao\BackendUser;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Routing\ScopeMatcher;
+use Contao\FrontendUser;
 use HeimrichHannot\Email2UsernameBundle\EventListener\BackendUserListener;
 use HeimrichHannot\Email2UsernameBundle\EventListener\FrontendUserListener;
 use HeimrichHannot\Email2UsernameBundle\Security\User\ContaoUserProviderDecorator;
@@ -44,8 +47,8 @@ class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
             $container->services()->set('e2u.decorator.frontend_user_provider', ContaoUserProviderDecorator::class)
                 ->decorate('contao.security.frontend_user_provider')
                 ->args([
-                    service('.inner'),
-                    'tl_member',
+                    service(ContaoFramework::class),
+                    FrontendUser::class,
                 ]);
         }
 
@@ -58,8 +61,8 @@ class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
             $container->services()->set('e2u.decorator.backend_user_provider', ContaoUserProviderDecorator::class)
                 ->decorate('contao.security.backend_user_provider')
                 ->args([
-                    service('.inner'),
-                    'tl_user',
+                    service(ContaoFramework::class),
+                    BackendUser::class,
                 ]);
         }
 

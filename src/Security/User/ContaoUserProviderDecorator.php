@@ -2,58 +2,55 @@
 
 namespace HeimrichHannot\Email2UsernameBundle\Security\User;
 
+use Contao\BackendUser;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Security\User\ContaoUserProvider;
+use Contao\FrontendUser;
 use Contao\MemberModel;
 use Contao\Model;
+use Contao\User;
 use Contao\UserModel;
 use Contao\Validator;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class ContaoUserProviderDecorator implements UserProviderInterface, PasswordUpgraderInterface
+class ContaoUserProviderDecorator extends ContaoUserProvider
 {
+    private readonly string $userTable;
+
     public function __construct(
-        private readonly ContaoUserProvider $inner,
-        private readonly string $userTable,
+        ContaoFramework $framework,
+        private readonly string $userClass,
     ) {
-        if ('tl_user' !== $userTable && 'tl_member' !== $userTable) {
-            throw new \RuntimeException(\sprintf('Unsupported table "%s".', $userTable));
-        }
+        $this->userTable = match ($userClass) {
+            BackendUser::class => 'tl_user',
+            FrontendUser::class => 'tl_member',
+            default => throw new \RuntimeException(\sprintf('Unsupported class "%s".', $userClass)),
+        };
+
+        parent::__construct($framework, $this->userClass);
     }
 
-    public function refreshUser(UserInterface $user): UserInterface
+    public function refreshUser(UserInterface $user): User
     {
         try {
-            return $this->inner->refreshUser($user);
+            return parent::refreshUser($user);
         } catch (UserNotFoundException $e) {
             return $this->tryLoadByEmail($user->getUserIdentifier(), $e);
         }
     }
 
-    public function supportsClass(string $class): bool
-    {
-        return $this->inner->supportsClass($class);
-    }
-
-    public function loadUserByIdentifier(string $identifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): User
     {
         try {
-            return $this->inner->loadUserByIdentifier($identifier);
+            return parent::loadUserByIdentifier($identifier);
         } catch (UserNotFoundException $e) {
         }
 
         return $this->tryLoadByEmail($identifier, $e);
     }
 
-    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
-    {
-        $this->inner->upgradePassword($user, $newHashedPassword);
-    }
-
-    private function tryLoadByEmail(string $identifier, UserNotFoundException|\Exception $e): UserInterface
+    private function tryLoadByEmail(string $identifier, UserNotFoundException|\Exception $e): User
     {
         if (!Validator::isEmail($identifier)) {
             throw $e;
@@ -67,6 +64,6 @@ class ContaoUserProviderDecorator implements UserProviderInterface, PasswordUpgr
             throw $e;
         }
 
-        return $this->inner->loadUserByIdentifier($user->username);
+        return parent::loadUserByIdentifier($user->username);
     }
 }

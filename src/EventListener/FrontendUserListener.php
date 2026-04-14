@@ -58,6 +58,7 @@ class FrontendUserListener extends AbstractUserListener
             return;
         }
         $field['eval']['readonly'] = true;
+        $field['eval']['disabled'] = true;
     }
 
     #[AsCallback(table: 'tl_member', target: 'fields.email.save')]

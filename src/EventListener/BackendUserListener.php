@@ -24,6 +24,7 @@ class BackendUserListener extends AbstractUserListener
         $field = &$GLOBALS['TL_DCA']['tl_user']['fields']['username'];
         $field['eval']['rgxp'] = 'email';
         $field['eval']['readonly'] = true;
+        $field['eval']['disabled'] = true;
         $field['eval']['mandatory'] = false;
     }
 
