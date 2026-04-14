@@ -25,7 +25,7 @@ class BackendUserListener extends AbstractUserListener
     #[AsCallback(table: 'tl_user', target: 'config.onsubmit')]
     public function onSubmit(DataContainer $dc): void
     {
-        if (!$dc?->id) {
+        if (!$dc->id) {
             return;
         }
 
