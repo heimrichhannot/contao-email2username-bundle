@@ -2,7 +2,9 @@
 
 namespace HeimrichHannot\Email2UsernameBundle\EventListener;
 
+use Contao\MemberModel;
 use Contao\Model;
+use Contao\UserModel;
 
 abstract class AbstractUserListener
 {
@@ -20,6 +22,7 @@ abstract class AbstractUserListener
 
     protected function updateUserIfNeeded(int $id): void
     {
+        /** @var UserModel|MemberModel|null $user */
         $user = $this->modelClass()::findByPk($id);
         if (!$user) {
             return;

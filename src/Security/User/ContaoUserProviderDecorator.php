@@ -3,7 +3,9 @@
 namespace HeimrichHannot\Email2UsernameBundle\Security\User;
 
 use Contao\CoreBundle\Security\User\ContaoUserProvider;
+use Contao\MemberModel;
 use Contao\Model;
+use Contao\UserModel;
 use Contao\Validator;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -57,6 +59,7 @@ class ContaoUserProviderDecorator implements UserProviderInterface, PasswordUpgr
             throw $e;
         }
 
+        /** @var class-string<UserModel|MemberModel> $model */
         $model = Model::getClassFromTable($this->userTable);
 
         $user = $model::findByEmail($identifier);
