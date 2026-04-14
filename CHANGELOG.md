@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-04-14
+This is a major rewrite of this extension. 
+- Added: allow login with email and username
+- Changed: configuration (BREAKING! See readme!)
+- Changed: dropped support for contao 4
+
 ## [1.5.1] - 2026-01-07
 - Fixed: issues with case-sensitivity ([@lukasbableck](https://github.com/lukasbableck), [#5](https://github.com/heimrichhannot/contao-email2username-bundle/pull/5))
 
