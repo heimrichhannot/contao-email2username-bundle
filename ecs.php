@@ -11,7 +11,6 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 return ECSConfig::configure()
     ->withPaths([
         __DIR__ . '/src',
-//        __DIR__ . '/contao',
 
     ])
 
@@ -34,5 +33,6 @@ return ECSConfig::configure()
         NotOperatorWithSuccessorSpaceFixer::class,
         MethodChainingIndentationFixer::class => [
             '*/DependencyInjection/Configuration.php',
+            'src/HeimrichHannotEmail2UsernameBundle.php'
         ],
     ]);

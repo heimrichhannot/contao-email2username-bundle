@@ -15,7 +15,7 @@ class BackendUserListener extends AbstractUserListener
     }
 
     #[AsCallback(table: 'tl_user', target: 'config.onload')]
-    public function onLoad(DataContainer|null $dc = null): void
+    public function onLoad(?DataContainer $dc = null): void
     {
         $field = &$GLOBALS['TL_DCA']['tl_user']['fields']['username'];
         $field['eval']['rgxp'] = 'email';
@@ -29,7 +29,7 @@ class BackendUserListener extends AbstractUserListener
             return;
         }
 
-        $this->updateUserIfNeeded((int)$dc->id);
+        $this->updateUserIfNeeded((int) $dc->id);
     }
 
     protected function modelClass(): string

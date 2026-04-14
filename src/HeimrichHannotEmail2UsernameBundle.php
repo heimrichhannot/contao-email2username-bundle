@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
@@ -60,7 +61,7 @@ class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
                 ->arrayNode('member')
                     ->addDefaultsIfNotSet()
                     ->beforeNormalization()
-                        ->ifTrue(fn($v) => !\is_array($v))
+                        ->ifTrue(fn ($v) => !\is_array($v))
                         ->thenInvalid('Invalid type for "member": expected an array. The config format has changed in V2.')
                     ->end()
                     ->children()
@@ -71,7 +72,7 @@ class HeimrichHannotEmail2UsernameBundle extends AbstractBundle
                 ->arrayNode('user')
                     ->addDefaultsIfNotSet()
                     ->beforeNormalization()
-                        ->ifTrue(fn($v) => !\is_array($v))
+                        ->ifTrue(fn ($v) => !\is_array($v))
                         ->thenInvalid('Invalid type for "user": expected an array. The config format has changed in V2.')
                     ->end()
                     ->children()
