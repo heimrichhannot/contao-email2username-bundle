@@ -60,7 +60,7 @@ class ContaoUserProviderDecorator extends ContaoUserProvider
         $model = Model::getClassFromTable($this->userTable);
 
         $user = $model::findByEmail($identifier);
-        if (!$user) {
+        if (!$user || '' === trim((string)$user->username)) {
             throw $e;
         }
 

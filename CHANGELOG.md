@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2026-10-08
+- Fixed: possible exception if user has no username
+
 ## [2.0.0] - 2026-04-14
 This is a major rewrite of this extension. 
 - Added: allow login with email and username
